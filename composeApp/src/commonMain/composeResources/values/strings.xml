@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <string name="your_alarms_title">Your Alarms</string>
+    <string name="no_alarms_text">It's empty! Add the first alarm so you don't miss an important moment!</string>
+</resources>
