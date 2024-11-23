@@ -30,3 +30,9 @@ fun LocalDateTime.getAlarmInText(): String? {
         if (minutes > 0) append("${minutes}min")
     }.trim()
 }
+
+fun Int.get0AppendedTime(): String =
+    if (this in 0..9)
+        "0$this"
+    else
+        "$this"

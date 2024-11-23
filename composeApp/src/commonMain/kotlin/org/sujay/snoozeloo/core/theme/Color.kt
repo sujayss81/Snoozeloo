@@ -6,3 +6,5 @@ val primary = Color(0xFFBCC6FF)
 val onPrimary = Color(0xFFFFFFFF)
 val background = Color(0xFFF6F6F6)
 val secondary = Color(0xFF4664FF)
+
+val inactiveColor = Color(0xFF858585)
