@@ -8,3 +8,4 @@ val background = Color(0xFFF6F6F6)
 val secondary = Color(0xFF4664FF)
 
 val inactiveColor = Color(0xFF858585)
+val grey = Color(0xFFE6E6E6)

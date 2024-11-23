@@ -1,6 +1,6 @@
 package org.sujay.snoozeloo.core.theme
 
-import androidx.compose.material.Typography
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -20,18 +20,17 @@ fun MonteserratFontFamily() = FontFamily(
 
 @Composable
 fun MonteserratTypography() = Typography(
-    defaultFontFamily = MonteserratFontFamily(),
-    h1 = TextStyle(
+    headlineLarge = TextStyle(
         fontFamily = MonteserratFontFamily(),
         fontSize = 24.sp,
         fontWeight = FontWeight.W500
     ),
-    body1 = TextStyle(
+    bodyMedium = TextStyle(
         fontFamily = MonteserratFontFamily(),
         fontSize = 16.sp,
         fontWeight = FontWeight.W500
     ),
-    body2 = TextStyle(
+    bodySmall = TextStyle(
         fontFamily = MonteserratFontFamily(),
         fontSize = 14.sp,
         fontWeight = FontWeight.W500

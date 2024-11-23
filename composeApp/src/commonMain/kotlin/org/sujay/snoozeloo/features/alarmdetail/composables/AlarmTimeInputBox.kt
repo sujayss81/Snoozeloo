@@ -11,8 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,7 +44,7 @@ fun AlarmTimeInputBox(modifier: Modifier = Modifier) {
         Text(
             modifier = Modifier.padding(top = 16.dp, bottom = 8.dp).align(Alignment.CenterHorizontally),
             text = "Alarm in 7h 15min",
-            style = MaterialTheme.typography.body2
+            style = MaterialTheme.typography.bodySmall
         )
     }
 }
@@ -52,15 +52,15 @@ fun AlarmTimeInputBox(modifier: Modifier = Modifier) {
 @Composable
 fun TimeBox(modifier: Modifier = Modifier, time: Int, isInactive: Boolean) {
     Box(
-        modifier.clip(RoundedCornerShape(10.dp)).background(MaterialTheme.colors.background)
-            .padding(16.dp)
+        modifier.clip(RoundedCornerShape(10.dp)).background(MaterialTheme.colorScheme.background)
+            .padding(vertical = 16.dp, horizontal = 32.dp)
     ) {
         Text(
             modifier = Modifier.align(Alignment.Center),
             text = time.get0AppendedTime(),
-            style = MaterialTheme.typography.h1,
+            style = MaterialTheme.typography.headlineLarge,
             fontSize = 52.sp,
-            color = if (!isInactive) MaterialTheme.colors.secondary else inactiveColor
+            color = if (!isInactive) MaterialTheme.colorScheme.secondary else inactiveColor
         )
     }
 }

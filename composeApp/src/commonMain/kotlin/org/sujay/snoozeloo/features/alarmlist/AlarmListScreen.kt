@@ -1,6 +1,7 @@
 package org.sujay.snoozeloo.features.alarmlist
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,12 +13,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.FabPosition
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.FloatingActionButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
@@ -43,17 +45,24 @@ fun AlarmListScreen() {
     )
 
     Scaffold(
+        modifier = Modifier.background(MaterialTheme.colorScheme.background),
         topBar = {
             Text(
                 modifier = Modifier.padding(horizontal = 16.dp).padding(top = 16.dp),
                 text = stringResource(Res.string.your_alarms_title),
-                style = MaterialTheme.typography.h1
+                style = MaterialTheme.typography.headlineLarge
             )
         },
         floatingActionButton = {
-            FloatingActionButton(modifier = Modifier.size(60.dp), onClick = {
-                // TODO navigate to Alarm Detail Screen
-            }, elevation = FloatingActionButtonDefaults.elevation(0.dp)) {
+            FloatingActionButton(
+                modifier = Modifier.size(60.dp),
+                containerColor = MaterialTheme.colorScheme.secondary,
+                onClick = {
+                    // TODO navigate to Alarm Detail Screen
+                },
+                elevation = FloatingActionButtonDefaults.elevation(0.dp),
+                shape = RoundedCornerShape(50.dp)
+            ) {
                 Image(
                     imageVector = vectorResource(Res.drawable.ic_add),
                     contentDescription = null,
@@ -82,7 +91,7 @@ fun AlarmListScreen() {
 
                         Text(
                             stringResource(Res.string.no_alarms_text),
-                            style = MaterialTheme.typography.body1,
+                            style = MaterialTheme.typography.bodyMedium,
                             textAlign = TextAlign.Center
                         )
                     }
