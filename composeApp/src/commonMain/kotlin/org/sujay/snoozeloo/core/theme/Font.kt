@@ -30,5 +30,10 @@ fun MonteserratTypography() = Typography(
         fontFamily = MonteserratFontFamily(),
         fontSize = 16.sp,
         fontWeight = FontWeight.W500
+    ),
+    body2 = TextStyle(
+        fontFamily = MonteserratFontFamily(),
+        fontSize = 14.sp,
+        fontWeight = FontWeight.W500
     )
 )

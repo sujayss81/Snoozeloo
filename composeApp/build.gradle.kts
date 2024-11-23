@@ -52,6 +52,9 @@ kotlin {
 
             // Koin core for dependency injection
             implementation(libs.koin.core)
+
+            // Kotlinx-Date
+            implementation(libs.kotlinx.datetime)
         }
     }
 }
