@@ -1,8 +1,6 @@
 package org.sujay.snoozeloo.features.alarmlist.composables
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,9 +26,9 @@ import androidx.compose.ui.unit.sp
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import org.sujay.snoozeloo.core.utils.formattedAlarmTime
 import org.sujay.snoozeloo.core.utils.getAlarmInText
 import org.sujay.snoozeloo.core.utils.getAmPm
+import org.sujay.snoozeloo.core.utils.getFormattedTimeFromEpochMillis
 import org.sujay.snoozeloo.data.AlarmUIModel
 
 @Composable
@@ -86,7 +84,7 @@ fun ItemAlarmList(
             Row {
                 Text(
                     modifier = Modifier.alignByBaseline(),
-                    text = localDateTime.formattedAlarmTime(),
+                    text = alarmUIModel.timeInMillis.getFormattedTimeFromEpochMillis(),
                     style = MaterialTheme.typography.headlineLarge,
                     fontSize = 42.sp
                 )

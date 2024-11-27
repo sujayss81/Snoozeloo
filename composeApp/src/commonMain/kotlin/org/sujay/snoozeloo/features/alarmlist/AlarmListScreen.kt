@@ -28,11 +28,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
+import org.sujay.snoozeloo.core.utils.LargeAlarmIcon
 import org.sujay.snoozeloo.data.AlarmUIModel
 import org.sujay.snoozeloo.features.alarmlist.composables.ItemAlarmList
 import snoozeloo.composeapp.generated.resources.Res
 import snoozeloo.composeapp.generated.resources.ic_add
-import snoozeloo.composeapp.generated.resources.ic_alarm
 import snoozeloo.composeapp.generated.resources.no_alarms_text
 import snoozeloo.composeapp.generated.resources.your_alarms_title
 
@@ -81,11 +81,7 @@ fun AlarmListScreen() {
                     contentAlignment = Alignment.Center
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Image(
-                            modifier = Modifier.size(62.dp),
-                            imageVector = vectorResource(Res.drawable.ic_alarm),
-                            contentDescription = null
-                        )
+                        LargeAlarmIcon()
 
                         Spacer(modifier = Modifier.height(32.dp))
 

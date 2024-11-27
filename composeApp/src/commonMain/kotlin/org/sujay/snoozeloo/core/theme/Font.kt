@@ -25,6 +25,11 @@ fun MonteserratTypography() = Typography(
         fontSize = 24.sp,
         fontWeight = FontWeight.W500
     ),
+    displayLarge = TextStyle(
+        fontFamily = MonteserratFontFamily(),
+        fontSize = 82.sp,
+        fontWeight = FontWeight.W500
+    ),
     bodyMedium = TextStyle(
         fontFamily = MonteserratFontFamily(),
         fontSize = 16.sp,
