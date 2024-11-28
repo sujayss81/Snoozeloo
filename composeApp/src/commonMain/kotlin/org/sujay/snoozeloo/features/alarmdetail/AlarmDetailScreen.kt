@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -20,7 +19,6 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -45,9 +43,8 @@ import snoozeloo.composeapp.generated.resources.ic_close
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AlarmDetailScreen() {
+fun AlarmDetailScreen(onAlarmAdd: (AlarmUIModel) -> Unit) {
 
     var hourSelected: Int? by remember {
         mutableStateOf(0)
@@ -58,7 +55,7 @@ fun AlarmDetailScreen() {
     }
 
     var alarmUIModel by remember {
-        mutableStateOf(AlarmUIModel(isActive = false, timeInMillis = 0L, name = null))
+        mutableStateOf(AlarmUIModel(isActive = true, timeInMillis = 0L, name = null))
     }
 
     var alarmTimeInMillis by remember {
@@ -79,7 +76,7 @@ fun AlarmDetailScreen() {
 
     val isSaveButtonEnabled by remember {
         derivedStateOf {
-            alarmTimeInMillis != 0L
+            alarmTimeInMillis != 0L && alarmName.isNotEmpty()
         }
     }
 
@@ -105,7 +102,10 @@ fun AlarmDetailScreen() {
 
                     // Save Alarm
                     alarmUIModel = alarmUIModel.copy(
-                        timeInMillis = hourSelected?.getEpochMillisFromTime(hourSelected, minSelected) ?: 0L,
+                        timeInMillis = hourSelected?.getEpochMillisFromTime(
+                            hourSelected,
+                            minSelected
+                        ) ?: 0L,
                         name = alarmName
                     )
 
@@ -115,6 +115,8 @@ fun AlarmDetailScreen() {
                             duration = SnackbarDuration.Short
                         )
                     }
+
+                    onAlarmAdd(alarmUIModel)
                 }
             }
         }) { contentPadding ->
@@ -123,13 +125,15 @@ fun AlarmDetailScreen() {
 
             // Dialog
 
-            if(showAlarmNameDialog) {
+            if (showAlarmNameDialog) {
 
                 AlertDialog(
                     title = {
-                        Text("Alarm Name", style = MaterialTheme.typography.bodyMedium.copy(
-                            fontWeight = FontWeight.W600
-                        ))
+                        Text(
+                            "Alarm Name", style = MaterialTheme.typography.bodyMedium.copy(
+                                fontWeight = FontWeight.W600
+                            )
+                        )
                     },
                     onDismissRequest = {
                         showAlarmNameDialog = true

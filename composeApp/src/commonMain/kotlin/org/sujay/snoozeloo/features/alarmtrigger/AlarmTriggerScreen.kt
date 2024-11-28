@@ -16,13 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import org.sujay.snoozeloo.core.theme.grey
 import org.sujay.snoozeloo.core.utils.LargeAlarmIcon
 import org.sujay.snoozeloo.core.utils.getFormattedTimeFromEpochMillis
 import org.sujay.snoozeloo.data.AlarmUIModel
 
 @Composable
-fun AlarmTriggerScreen(alarmUIModel: AlarmUIModel) {
+fun AlarmTriggerScreen(navController: NavController, alarmUIModel: AlarmUIModel) {
     Box(
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -34,7 +35,7 @@ fun AlarmTriggerScreen(alarmUIModel: AlarmUIModel) {
             LargeAlarmIcon()
 
             Text(
-                text = alarmUIModel.timeInMillis.getFormattedTimeFromEpochMillis(),
+                text = alarmUIModel.timeInMillis?.getFormattedTimeFromEpochMillis() ?: "",
                 style = MaterialTheme.typography.displayLarge,
                 color = MaterialTheme.colorScheme.secondary
             )

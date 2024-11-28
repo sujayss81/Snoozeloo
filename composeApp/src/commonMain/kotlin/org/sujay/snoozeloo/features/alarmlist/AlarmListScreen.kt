@@ -21,7 +21,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -37,12 +36,7 @@ import snoozeloo.composeapp.generated.resources.no_alarms_text
 import snoozeloo.composeapp.generated.resources.your_alarms_title
 
 @Composable
-fun AlarmListScreen() {
-    val alarmList = mutableStateListOf(
-        AlarmUIModel("Wake up", true, 1732356000000),
-        AlarmUIModel("Education", true, 1732377600000),
-        AlarmUIModel("Dinner", false, 1732384800000)
-    )
+fun AlarmListScreen(alarmList: List<AlarmUIModel>, onFabClick: () -> Unit, onStateChange: (AlarmUIModel, Boolean) -> Unit) {
 
     Scaffold(
         modifier = Modifier.background(MaterialTheme.colorScheme.background),
@@ -58,7 +52,7 @@ fun AlarmListScreen() {
                 modifier = Modifier.size(60.dp),
                 containerColor = MaterialTheme.colorScheme.secondary,
                 onClick = {
-                    // TODO navigate to Alarm Detail Screen
+                    onFabClick()
                 },
                 elevation = FloatingActionButtonDefaults.elevation(0.dp),
                 shape = RoundedCornerShape(50.dp)
@@ -106,7 +100,7 @@ fun AlarmListScreen() {
                     alarmUIModel = alarm,
                     onStateChangeAlarm = {
                         val selectedAlarm = alarmList[index]
-                        alarmList[index] = selectedAlarm.copy(isActive = !selectedAlarm.isActive)
+                        onStateChange(selectedAlarm, it)
                     }
                 )
             }

@@ -20,7 +20,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.datetime.Instant
@@ -34,7 +36,7 @@ import org.sujay.snoozeloo.data.AlarmUIModel
 @Composable
 fun ItemAlarmList(
     modifier: Modifier = Modifier,
-    alarmUIModel: AlarmUIModel,
+    alarmUIModel: AlarmUIModel?,
     onStateChangeAlarm: (Boolean) -> Unit
 ) {
     Card(
@@ -50,7 +52,7 @@ fun ItemAlarmList(
             ) {
                 Text(
                     modifier = Modifier,
-                    text = alarmUIModel.name ?: "",
+                    text = alarmUIModel?.name?.capitalize(Locale.current) ?: "",
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.W600
                 )
@@ -60,8 +62,8 @@ fun ItemAlarmList(
 
                 Switch(
                     modifier = Modifier.offset(y = (-10).dp),
-                    checked = alarmUIModel.isActive, onCheckedChange = {
-                        onStateChangeAlarm(!alarmUIModel.isActive)
+                    checked = alarmUIModel?.isActive ?: false, onCheckedChange = {
+                        onStateChangeAlarm(!(alarmUIModel?.isActive ?: false))
                     }, colors = SwitchDefaults.colors(
                         checkedTrackColor = secondaryColor,
                         uncheckedTrackColor = primaryColor,
@@ -78,13 +80,13 @@ fun ItemAlarmList(
                     })
             }
 
-            val instant = Instant.fromEpochMilliseconds(alarmUIModel.timeInMillis)
+            val instant = Instant.fromEpochMilliseconds(alarmUIModel?.timeInMillis ?: 0)
             val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
 
             Row {
                 Text(
                     modifier = Modifier.alignByBaseline(),
-                    text = alarmUIModel.timeInMillis.getFormattedTimeFromEpochMillis(),
+                    text = alarmUIModel?.timeInMillis?.getFormattedTimeFromEpochMillis() ?: "",
                     style = MaterialTheme.typography.headlineLarge,
                     fontSize = 42.sp
                 )
