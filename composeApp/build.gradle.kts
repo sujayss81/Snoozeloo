@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    id("io.realm.kotlin") version "2.3.0"
 }
 
 kotlin {
@@ -39,6 +40,9 @@ kotlin {
 
             // Splash library
             implementation(libs.androidx.core.splashscreen)
+
+            // Realm
+            implementation(libs.library.base)
         }
         commonMain.dependencies {
             implementation(compose.runtime)

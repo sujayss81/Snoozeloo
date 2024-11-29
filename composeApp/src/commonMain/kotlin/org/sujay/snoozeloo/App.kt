@@ -1,12 +1,16 @@
 package org.sujay.snoozeloo
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.sujay.snoozeloo.core.crossplatform.AlarmManager
 import org.sujay.snoozeloo.core.theme.SnoozelooTheme
 import org.sujay.snoozeloo.core.utils.NavConstants
 import org.sujay.snoozeloo.data.AlarmUIModel
@@ -19,10 +23,19 @@ import org.sujay.snoozeloo.features.alarmtrigger.AlarmTriggerScreen
 fun App() {
     SnoozelooTheme {
         val navController = rememberNavController()
+        val alarmManager = AlarmManager()
 
-        val alarmList = remember {
+        var alarmList = remember {
             mutableStateListOf<AlarmUIModel>()
         }
+
+        LaunchedEffect(true) {
+            alarmManager.getAlarms().let {
+                alarmList.addAll(it)
+            }
+        }
+
+        val coroutineScope = rememberCoroutineScope()
 
         NavHost(
             navController = navController,
@@ -34,6 +47,10 @@ fun App() {
                 }, onStateChange = { alarm, state ->
                     val index = alarmList.indexOf(alarm)
                     alarmList[index] = alarmList[index].copy(isActive = state)
+
+                    coroutineScope.launch {
+                        alarmManager.setAlarmState( alarm.copy(isActive = state))
+                    }
                 })
             }
 
@@ -41,6 +58,10 @@ fun App() {
                 AlarmDetailScreen {
                     alarmList.add(it)
                     navController.navigateUp()
+
+                    coroutineScope.launch {
+                        alarmManager.saveAlarm(it)
+                    }
                 }
             }
 
