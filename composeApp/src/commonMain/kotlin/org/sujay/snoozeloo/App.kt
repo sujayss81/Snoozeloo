@@ -10,7 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.sujay.snoozeloo.core.crossplatform.AlarmManager
+import org.sujay.snoozeloo.core.crossplatform.SNAlarmManager
 import org.sujay.snoozeloo.core.theme.SnoozelooTheme
 import org.sujay.snoozeloo.core.utils.NavConstants
 import org.sujay.snoozeloo.data.AlarmUIModel
@@ -20,17 +20,17 @@ import org.sujay.snoozeloo.features.alarmtrigger.AlarmTriggerScreen
 
 @Composable
 @Preview
-fun App() {
+fun App(isTriggerScreen: Boolean = false, alarmName: String, alarmTime: Long) {
     SnoozelooTheme {
         val navController = rememberNavController()
-        val alarmManager = AlarmManager()
+        val sNAlarmManager = SNAlarmManager()
 
         var alarmList = remember {
             mutableStateListOf<AlarmUIModel>()
         }
 
         LaunchedEffect(true) {
-            alarmManager.getAlarms().let {
+            sNAlarmManager.getAlarms().let {
                 alarmList.addAll(it)
             }
         }
@@ -39,7 +39,7 @@ fun App() {
 
         NavHost(
             navController = navController,
-            startDestination = NavConstants.ALARM_LIST_SCREEN.name
+            startDestination = if (isTriggerScreen) NavConstants.ALARM_TRIGGER_SCREEN.name else NavConstants.ALARM_LIST_SCREEN.name
         ) {
             composable(route = NavConstants.ALARM_LIST_SCREEN.name) {
                 AlarmListScreen(alarmList, onFabClick = {
@@ -47,9 +47,10 @@ fun App() {
                 }, onStateChange = { alarm, state ->
                     val index = alarmList.indexOf(alarm)
                     alarmList[index] = alarmList[index].copy(isActive = state)
+                    sNAlarmManager.setAlarmTrigger(alarm, state)
 
                     coroutineScope.launch {
-                        alarmManager.setAlarmState( alarm.copy(isActive = state))
+                        sNAlarmManager.setAlarmState(alarm.copy(isActive = state))
                     }
                 })
             }
@@ -57,22 +58,23 @@ fun App() {
             composable(route = NavConstants.ALARM_DETAILS_SCREEN.name) {
                 AlarmDetailScreen {
                     alarmList.add(it)
+                    sNAlarmManager.setAlarmTrigger(it, true)
                     navController.navigateUp()
 
                     coroutineScope.launch {
-                        alarmManager.saveAlarm(it)
+                        sNAlarmManager.saveAlarm(it)
                     }
                 }
             }
 
             composable(route = NavConstants.ALARM_TRIGGER_SCREEN.name) {
                 val alarmUIModel = AlarmUIModel(
-                    name = "Work",
-                    isActive = true,
-                    timeInMillis = 0L
+                    name = alarmName, isActive = true, timeInMillis = alarmTime
                 )
 
-                AlarmTriggerScreen(navController, alarmUIModel)
+                AlarmTriggerScreen(alarmUIModel) {
+                    navController.navigateUp()
+                }
             }
         }
     }

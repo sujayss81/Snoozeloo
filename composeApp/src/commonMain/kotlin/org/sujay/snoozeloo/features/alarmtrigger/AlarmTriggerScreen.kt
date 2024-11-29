@@ -23,7 +23,7 @@ import org.sujay.snoozeloo.core.utils.getFormattedTimeFromEpochMillis
 import org.sujay.snoozeloo.data.AlarmUIModel
 
 @Composable
-fun AlarmTriggerScreen(navController: NavController, alarmUIModel: AlarmUIModel) {
+fun AlarmTriggerScreen(alarmUIModel: AlarmUIModel, onTurnOff: () -> Unit) {
     Box(
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -51,7 +51,7 @@ fun AlarmTriggerScreen(navController: NavController, alarmUIModel: AlarmUIModel)
             Button(
                 modifier = Modifier.width(200.dp).padding(vertical = 8.dp),
                 onClick = {
-                    // TODO handle alarm dismiss
+                    onTurnOff()
                 }, colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.secondary,
                     contentColor = MaterialTheme.colorScheme.onPrimary,
